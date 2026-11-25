@@ -1,0 +1,298 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Rogue Minimized</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#18181D; --surface:#212127; --fg:#FFFAEE; --muted:#B9B4A8; --line:#34343C;
+  --accent:#FF9934; --accent-soft:#3A2A1A; --swarm:#5FA8E6; --swarm-soft:#16263A;
+  --f-display:"Lato","Segoe UI",system-ui,sans-serif;
+  --f-body:"Lato","Segoe UI",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.6;padding-inline:16px;padding-block:0 48px}
+.wrap{max-width:880px;margin:0 auto}
+header{padding-block:32px 20px;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:var(--f-display);font-weight:900;font-size:clamp(34px,7vw,52px);line-height:1.05;margin:8px 0 10px;letter-spacing:.01em;text-wrap:balance}
+h1 span{color:var(--accent)}
+.lede{max-width:62ch;margin:0;color:var(--fg)}
+.meta{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:16px;font-family:var(--f-mono);font-size:13px;color:var(--muted)}
+.meta b{color:var(--fg);font-weight:500}
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;gap:4px;overflow-x:auto;padding-block:10px;border-bottom:1px solid var(--line);scrollbar-width:none}
+nav.tabs button{font:600 14px/1 var(--f-display);letter-spacing:.04em;text-transform:uppercase;background:none;border:1px solid transparent;color:var(--muted);padding:10px 12px;border-radius:6px;cursor:pointer;white-space:nowrap}
+nav.tabs button:hover{color:var(--fg)}
+nav.tabs button[aria-selected="true"]{color:var(--accent);border-color:var(--line);background:var(--surface)}
+nav.tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+section.panel{padding-block:24px 8px}
+h2{font-family:var(--f-display);font-weight:600;font-size:26px;margin:0 0 12px;text-wrap:balance}
+h3{font-family:var(--f-display);font-weight:600;font-size:19px;margin:28px 0 8px;text-wrap:balance}
+p,li{max-width:68ch}
+ul,ol{padding-left:22px}
+li{margin-block:4px}
+code{font-family:var(--f-mono);font-size:.88em;background:var(--accent-soft);padding:1px 5px;border-radius:4px}
+pre{font-family:var(--f-mono);font-size:13.5px;line-height:1.35;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px;overflow-x:auto}
+pre code{background:none;padding:0}
+.callout{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:14px 16px;margin-block:16px}
+.callout.swarm{border-color:var(--swarm);background:var(--swarm-soft)}
+.callout p{margin:0}
+.tbl{overflow-x:auto;margin-block:12px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:14.5px}
+th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line)}
+th{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500}
+tr:last-child td{border-bottom:0}
+td.num,.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-size:13.5px;white-space:nowrap}
+.tag{display:inline-block;font-family:var(--f-mono);font-size:11.5px;letter-spacing:.05em;padding:2px 7px;border-radius:999px;border:1px solid var(--line);color:var(--muted);vertical-align:middle}
+.tag.p{color:var(--accent);border-color:var(--accent)}
+.tag.s{color:var(--swarm);border-color:var(--swarm)}
+.ms{display:grid;gap:14px;margin-block:16px;padding:0;list-style:none}
+.ms>li{max-width:none;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:16px}
+.ms .head{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin-bottom:6px}
+.ms .code{font-family:var(--f-display);font-weight:700;font-size:20px;color:var(--accent)}
+.ms .title{font-family:var(--f-display);font-weight:600;font-size:18px}
+.ms .due{margin-left:auto;font-family:var(--f-mono);font-size:13px;color:var(--muted)}
+.ms ul{margin:6px 0 0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-block:12px}
+.grid2>div{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:14px 16px;min-width:0}
+.grid2 h4{margin:0 0 4px;font-family:var(--f-display);font-size:16px}
+.grid2 p{margin:0;font-size:15px}
+.score{font-family:var(--f-display);font-weight:700;font-size:30px;color:var(--accent);font-variant-numeric:tabular-nums}
+.sched{display:grid;gap:0;margin-block:16px;border:1px solid var(--line);border-radius:8px;background:var(--surface);overflow:hidden}
+.sched>div{display:grid;grid-template-columns:110px 1fr;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line)}
+.sched>div:last-child{border-bottom:0}
+.sched .t{font-family:var(--f-mono);font-size:13.5px;color:var(--accent);font-variant-numeric:tabular-nums}
+.sched h4{margin:0 0 4px;font-family:var(--f-display);font-size:17px}
+.sched p,.sched ul{margin:4px 0 0;font-size:15px}
+.sched>div>div{min-width:0}
+@media (max-width:520px){.sched>div{grid-template-columns:1fr;gap:4px}}
+.check{padding-left:24px}
+.check li{list-style:none;position:relative}
+.check li::before{content:"";position:absolute;left:-20px;top:.55em;width:10px;height:10px;border:1.5px solid var(--accent);border-radius:2px}
+footer{margin-top:32px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+</style>
+</head><body>
+<div class="wrap">
+<header>
+  <div class="eyebrow">Nash · Game Programming 1 · Intro to C# · Lab</div>
+  <h1>Rogue <span>Minimized</span></h1>
+  <p class="lede">A small remake of the core of Rogue (1980), the game that gave its name to a whole genre: a dungeon drawn with characters in the terminal, explored one turn at a time. You build it in C#, one milestone per week, using what you learn in Monday's lesson. Milestones are assigned one at a time.</p>
+  <div class="meta"><span>Final delivery <b>Wed, January 20</b></span><span><b>Individual</b> game, <b>group</b> wiki</span></div>
+</header>
+
+<nav class="tabs" role="tablist" aria-label="Sections">
+  <button role="tab" id="t-game" aria-controls="game" aria-selected="true">The game</button>
+  <button role="tab" id="t-mech" aria-controls="mech" aria-selected="false">Mechanics</button>
+  <button role="tab" id="t-wiki" aria-controls="wiki" aria-selected="false">Wiki</button>
+  <button role="tab" id="t-tech" aria-controls="tech" aria-selected="false">Technical requirements</button>
+  <button role="tab" id="t-ms" aria-controls="ms" aria-selected="false">Milestones</button>
+</nav>
+
+<section class="panel" id="game" role="tabpanel" aria-labelledby="t-game">
+  <h2>The game</h2>
+  <p>You are an adventurer in a dungeon you cannot see. Every step reveals what is around you. Somewhere there is gold, a piece of armor, an enemy, and the way out.</p>
+
+  <h3>Gameplay loop</h3>
+  <ol>
+    <li>You <b>explore</b>: you move one cell per turn, and the dungeon is revealed around you.</li>
+    <li>You <b>collect</b> what you find: gold raises your score, armor makes you harder to hurt.</li>
+    <li>You <b>fight</b> the enemy that guards the room with the exit, by walking into it.</li>
+    <li>You <b>leave</b> the dungeon through the exit. Or you die trying.</li>
+  </ol>
+
+  <h3>What the screen looks like</h3>
+  <p>One possible layout. Characters and colors are up to you.</p>
+<pre><code>You found a gold bag: +17 gold
+
+  ┌──────┐            ┌─────┐
+  │······│░░░░░░░░░░░░+·····│
+  │··@···│            │··k··│
+  │····$·│            │····>│
+  └──+───┘            └─────┘
+     ░
+     ░
+
+HP 20/20   Armor 0   Gold 17   Turn 42</code></pre>
+
+  <h3>Symbols</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Element</th><th>Example</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Player</td><td><code>@</code></td><td>Rogue's classic. <code>P</code> is fine too.</td></tr>
+      <tr><td>Wall</td><td><code>│ ─ ┌ ┐ └ ┘</code></td><td>Cannot be crossed.</td></tr>
+      <tr><td>Floor</td><td><code>·</code> or <code>.</code></td><td></td></tr>
+      <tr><td>Corridor</td><td><code>░</code> or <code>#</code></td><td></td></tr>
+      <tr><td>Door</td><td><code>+</code></td><td>Where a corridor enters a room.</td></tr>
+      <tr><td>Exit</td><td><code>&gt;</code></td><td>Stairs down: reaching it ends the game.</td></tr>
+      <tr><td>Enemy</td><td>a letter, e.g. <code>k</code></td><td></td></tr>
+      <tr><td>Gold bag</td><td><code>$</code></td><td></td></tr>
+      <tr><td>Armor</td><td><code>[</code></td><td></td></tr>
+      <tr><td>Unexplored</td><td>(space)</td><td>Cells you have not revealed yet.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Creative freedom</h3>
+  <p>You draw your own dungeon, and you choose characters, colors, the name of the game and of the enemy. What matters is that every mechanic works as described. Rogue Minimized is the name of the project: give your game its own name.</p>
+</section>
+
+<section class="panel" id="mech" role="tabpanel" aria-labelledby="t-mech" hidden>
+  <h2>Mechanics</h2>
+
+  <h3>1 · Turn</h3>
+  <div class="tbl"><table><tbody>
+    <tr><td>What it is</td><td>The game waits for one key. Every key that does something is one turn: the player acts, then the enemy reacts, then the screen is redrawn.</td></tr>
+    <tr><td>Keys</td><td>Arrows or WASD to move. <code>M</code> reveals the whole map (debug). <code>Q</code> quits.</td></tr>
+    <tr><td>Rules</td><td>A key that does nothing (an unknown key, a move into a wall) does not cost a turn and does not crash the game.</td></tr>
+  </tbody></table></div>
+
+  <h3>2 · Movement</h3>
+  <div class="tbl"><table><tbody>
+    <tr><td>Conditions</td><td>The destination cell is floor, corridor, door or exit.</td></tr>
+    <tr><td>Effects</td><td>The player moves by one cell. If the destination has an item, it is collected. If it is the exit, the game is won.</td></tr>
+    <tr><td>Edges</td><td>Walls and empty space cannot be crossed. The player can never leave the map, even at its borders.</td></tr>
+  </tbody></table></div>
+
+  <h3>3 · Fog of war</h3>
+  <div class="tbl"><table><tbody>
+    <tr><td>Start</td><td>No cell is revealed.</td></tr>
+    <tr><td>Every turn</td><td>The player's cell and the 8 cells around it become revealed, and stay revealed forever.</td></tr>
+    <tr><td>Drawing</td><td>Unrevealed cells are drawn as spaces. Items and enemies on unrevealed cells are invisible.</td></tr>
+    <tr><td>Debug</td><td><code>M</code> reveals every cell.</td></tr>
+  </tbody></table></div>
+
+  <h3>4 · Items</h3>
+  <div class="tbl"><table><tbody>
+    <tr><td>Gold bag</td><td>Adds a random amount of gold, between <code>10</code> and <code>30</code>.</td></tr>
+    <tr><td>Armor</td><td>Adds <code>2</code> to the player's armor. Armor reduces the damage the player takes.</td></tr>
+    <tr><td>Collecting</td><td>Walking onto the item. It disappears from the map and a message says what you found and how much.</td></tr>
+  </tbody></table></div>
+
+  <h3>5 · Combat</h3>
+  <div class="tbl"><table><tbody>
+    <tr><td>The enemy</td><td>One enemy, standing still, guarding the room with the exit. It has <code>10</code> HP and <code>4</code> attack.</td></tr>
+    <tr><td>Player attack</td><td>Trying to move onto the enemy attacks it instead: random damage between <code>2</code> and <code>5</code>. The player does not move.</td></tr>
+    <tr><td>Enemy attack</td><td>At the end of every turn, if the enemy is alive and next to the player (8 directions), it attacks. Damage = enemy attack − player armor, <b>minimum 1</b>.</td></tr>
+    <tr><td>Enemy death</td><td>At 0 HP it disappears and drops <b>random loot</b> on its cell: a gold bag or a piece of armor, with equal chance.</td></tr>
+    <tr><td>Player death</td><td>At 0 HP: game over.</td></tr>
+    <tr><td>Messages</td><td>Every attack writes a message: who hit whom, and for how much.</td></tr>
+  </tbody></table></div>
+
+  <h3>6 · HUD and end of game</h3>
+  <div class="tbl"><table><tbody>
+    <tr><td>HUD</td><td>Always visible at the bottom of the screen: <b>HP</b> (current / max), <b>Armor</b>, <b>Gold</b>, <b>Turn</b>. The player starts with <code>20</code> HP, <code>0</code> armor, <code>0</code> gold.</td></tr>
+    <tr><td>Message line</td><td>Always visible at the top: the last thing that happened.</td></tr>
+    <tr><td>End screen</td><td>Victory (exit reached) or game over, with gold collected and turns played.</td></tr>
+  </tbody></table></div>
+
+  <h3>7 · Randomness</h3>
+  <p>Everything random (damage, gold, loot) comes from <b>one</b> <code>Random</code> object created with a <b>seed</b> written at the top of the code. With the same seed and the same keys, the game must play out exactly the same way. That is how it is tested in class.</p>
+
+  <h3>Nice to have (extra points)</h3>
+  <ul>
+    <li><b>Chase:</b> when the player is within <code>5</code> cells, the enemy takes one step toward them each turn, along the axis with the greater distance, if that cell is walkable.</li>
+    <li><b>Room reveal:</b> entering a room lights it up entirely, as in the original Rogue.</li>
+    <li><b>More enemies and items</b>, using a <code>List</code>.</li>
+    <li><b>Level from a file:</b> the map is loaded from a <code>.txt</code> file instead of being written in the code.</li>
+    <li><b>Random dungeon:</b> rooms and corridors generated at the start, the same for the same seed. Every room must be reachable.</li>
+  </ul>
+</section>
+
+<section class="panel" id="wiki" role="tabpanel" aria-labelledby="t-wiki" hidden>
+  <h2>Wiki</h2>
+  <p>The game is individual, the <b>documentation is shared</b>: the class writes one wiki together on GitHub and keeps it growing during the module. What goes in it and how it is organized is up to you.</p>
+
+  <h3>Where to find sources</h3>
+  <ul>
+    <li><b>Official C# and .NET documentation</b> on Microsoft Learn: the C# guide for the language, the .NET API reference for classes like <code>Console</code> and <code>Random</code>.</li>
+    <li><b>About Rogue:</b> the original manual (<i>A Guide to the Dungeons of Doom</i>), RogueBasin (a wiki about roguelikes), and above all your own game sessions.</li>
+    <li><b>Your own tests:</b> a small program that proves how something behaves is often the best source of all.</li>
+    <li><b>AI tools:</b> useful to find a starting point or to check a text, but they can be wrong. Verify against one of the sources above.</li>
+  </ul>
+  <div class="callout swarm"><p>The wiki has one grade for the whole class.</p></div>
+</section>
+
+<section class="panel" id="tech" role="tabpanel" aria-labelledby="t-tech" hidden>
+  <h2>Technical requirements</h2>
+  <ul>
+    <li>C# console application, .NET 11, VS Code.</li>
+    <li><b>Characters:</b> ASCII, plus Unicode box-drawing (<code>┌ ┐ └ ┘ ─ │ ├ ┤ ┬ ┴ ┼</code>), shade blocks (<code>░ ▒ ▓ █</code>) and <code>·</code>. No emoji or other symbols: they can take two columns and break the grid. Set <code>Console.OutputEncoding</code> to UTF-8 at startup.</li>
+    <li>The screen is redrawn in place, not scrolled: no trace of previous frames.</li>
+    <li>Only what we have covered in class, plus the snippets given with each milestone. Anything else is allowed if you can explain it.</li>
+    <li>A README with: how to run the game, the keys, the seed, the choices you made.</li>
+  </ul>
+</section>
+
+<section class="panel" id="ms" role="tabpanel" aria-labelledby="t-ms" hidden>
+  <h2>Milestones</h2>
+  <p>Each milestone is assigned on Wednesday and delivered <b>by 9:00 on the following Wednesday</b>, at the start of the lab, as a .zip of the project folder (without the <code>bin</code> and <code>obj</code> folders). The details of each milestone are given when it is assigned.</p>
+  <ol class="ms">
+    <li><div class="head"><span class="code">M0</span><span class="title">Wiki and setup</span><span class="due">Wed, November 25</span></div>
+      <ul>
+        <li>Wiki: start it together. In the next milestones, keep it updated as your projects progress.</li>
+        <li>GitHub account to edit the wiki. Console project that compiles and runs.</li>
+        <li>README and a title screen with the name of your game.</li>
+      </ul></li>
+    <li><div class="head"><span class="code">M1</span><span class="title">One room</span><span class="due">Wed, December 2</span></div>
+      <ul>
+        <li>A single room, drawn from its position and size.</li>
+        <li>The player moves inside it and never leaves its walls.</li>
+        <li>HUD always visible: HP, armor, gold, turn.</li>
+      </ul></li>
+    <li><div class="head"><span class="code">M2</span><span class="title">Dungeon and fog of war</span><span class="due">Wed, December 16</span></div>
+      <ul>
+        <li>A dungeon you draw by hand: at least 3 rooms, corridors, doors, the exit.</li>
+        <li>Collisions with walls. Reaching the exit wins the game.</li>
+        <li>Fog of war, with the debug key.</li>
+      </ul></li>
+    <li><div class="head"><span class="code">M3</span><span class="title">The enemy</span><span class="due">Wed, December 23</span></div>
+      <ul>
+        <li>Code split into functions.</li>
+        <li>The enemy guarding the exit, combat, game over, messages.</li>
+        <li>One seeded <code>Random</code>.</li>
+      </ul></li>
+    <li><div class="head"><span class="code">M4</span><span class="title">Loot</span><span class="due">Wed, January 13</span></div>
+      <ul>
+        <li>Gold bag and armor on the map, random loot from the enemy.</li>
+        <li>Cell types and item types as enums, cells as structs.</li>
+        <li>End screen.</li>
+      </ul></li>
+    <li><div class="head"><span class="code">M5</span><span class="title">Classes</span><span class="due">Wed, January 20</span></div>
+      <ul>
+        <li>The player, the enemy and the items become classes. The game plays exactly as in M4.</li>
+      </ul></li>
+    <li><div class="head"><span class="code">FIN</span><span class="title">Final delivery</span><span class="due">Wed, January 20</span></div>
+      <ul>
+        <li>5-minute presentation: your game, two code choices, what was hard.</li>
+        <li>Test in class with a seed chosen by the teacher.</li>
+        <li>Oral exam: you explain a part of your code and make a small change to it live.</li>
+      </ul></li>
+  </ol>
+</section>
+
+<footer>Rogue Minimized · academic remake of Rogue (1980) · Intro to C#, Game Programming 1 · Nash, 2026/27</footer>
+</div>
+
+<script>
+(function(){
+  var tabs=[].slice.call(document.querySelectorAll('nav.tabs [role=tab]'));
+  function show(id,push){
+    tabs.forEach(function(t){
+      var on=t.getAttribute('aria-controls')===id;
+      t.setAttribute('aria-selected',on?'true':'false');
+      t.tabIndex=on?0:-1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden=!on;
+    });
+    if(push){try{history.replaceState(null,'','#'+id)}catch(e){}}
+  }
+  tabs.forEach(function(t,i){
+    t.addEventListener('click',function(){show(t.getAttribute('aria-controls'),true)});
+    t.addEventListener('keydown',function(e){
+      var d=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0;
+      if(!d)return;var n=tabs[(i+d+tabs.length)%tabs.length];n.focus();n.click();
+    });
+  });
+  document.addEventListener('click',function(e){var a=e.target.closest('a[data-tab]');if(a){e.preventDefault();show(a.getAttribute('data-tab'),true);}});
+  var h=(location.hash||'').slice(1);
+  if(h&&document.getElementById(h)&&tabs.some(function(t){return t.getAttribute('aria-controls')===h}))show(h,false);
+})();
+</script>
+</body></html>

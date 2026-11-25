@@ -1,0 +1,298 @@
+<!DOCTYPE html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Rogue Minimized (IT)</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#18181D; --surface:#212127; --fg:#FFFAEE; --muted:#B9B4A8; --line:#34343C;
+  --accent:#FF9934; --accent-soft:#3A2A1A; --swarm:#5FA8E6; --swarm-soft:#16263A;
+  --f-display:"Lato","Segoe UI",system-ui,sans-serif;
+  --f-body:"Lato","Segoe UI",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.6;padding-inline:16px;padding-block:0 48px}
+.wrap{max-width:880px;margin:0 auto}
+header{padding-block:32px 20px;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:var(--f-display);font-weight:900;font-size:clamp(34px,7vw,52px);line-height:1.05;margin:8px 0 10px;letter-spacing:.01em;text-wrap:balance}
+h1 span{color:var(--accent)}
+.lede{max-width:62ch;margin:0;color:var(--fg)}
+.meta{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:16px;font-family:var(--f-mono);font-size:13px;color:var(--muted)}
+.meta b{color:var(--fg);font-weight:500}
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;gap:4px;overflow-x:auto;padding-block:10px;border-bottom:1px solid var(--line);scrollbar-width:none}
+nav.tabs button{font:600 14px/1 var(--f-display);letter-spacing:.04em;text-transform:uppercase;background:none;border:1px solid transparent;color:var(--muted);padding:10px 12px;border-radius:6px;cursor:pointer;white-space:nowrap}
+nav.tabs button:hover{color:var(--fg)}
+nav.tabs button[aria-selected="true"]{color:var(--accent);border-color:var(--line);background:var(--surface)}
+nav.tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+section.panel{padding-block:24px 8px}
+h2{font-family:var(--f-display);font-weight:600;font-size:26px;margin:0 0 12px;text-wrap:balance}
+h3{font-family:var(--f-display);font-weight:600;font-size:19px;margin:28px 0 8px;text-wrap:balance}
+p,li{max-width:68ch}
+ul,ol{padding-left:22px}
+li{margin-block:4px}
+code{font-family:var(--f-mono);font-size:.88em;background:var(--accent-soft);padding:1px 5px;border-radius:4px}
+pre{font-family:var(--f-mono);font-size:13.5px;line-height:1.35;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px;overflow-x:auto}
+pre code{background:none;padding:0}
+.callout{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:14px 16px;margin-block:16px}
+.callout.swarm{border-color:var(--swarm);background:var(--swarm-soft)}
+.callout p{margin:0}
+.tbl{overflow-x:auto;margin-block:12px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:14.5px}
+th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line)}
+th{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500}
+tr:last-child td{border-bottom:0}
+td.num,.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-size:13.5px;white-space:nowrap}
+.tag{display:inline-block;font-family:var(--f-mono);font-size:11.5px;letter-spacing:.05em;padding:2px 7px;border-radius:999px;border:1px solid var(--line);color:var(--muted);vertical-align:middle}
+.tag.p{color:var(--accent);border-color:var(--accent)}
+.tag.s{color:var(--swarm);border-color:var(--swarm)}
+.ms{display:grid;gap:14px;margin-block:16px;padding:0;list-style:none}
+.ms>li{max-width:none;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:16px}
+.ms .head{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin-bottom:6px}
+.ms .code{font-family:var(--f-display);font-weight:700;font-size:20px;color:var(--accent)}
+.ms .title{font-family:var(--f-display);font-weight:600;font-size:18px}
+.ms .due{margin-left:auto;font-family:var(--f-mono);font-size:13px;color:var(--muted)}
+.ms ul{margin:6px 0 0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-block:12px}
+.grid2>div{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:14px 16px;min-width:0}
+.grid2 h4{margin:0 0 4px;font-family:var(--f-display);font-size:16px}
+.grid2 p{margin:0;font-size:15px}
+.score{font-family:var(--f-display);font-weight:700;font-size:30px;color:var(--accent);font-variant-numeric:tabular-nums}
+.sched{display:grid;gap:0;margin-block:16px;border:1px solid var(--line);border-radius:8px;background:var(--surface);overflow:hidden}
+.sched>div{display:grid;grid-template-columns:110px 1fr;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line)}
+.sched>div:last-child{border-bottom:0}
+.sched .t{font-family:var(--f-mono);font-size:13.5px;color:var(--accent);font-variant-numeric:tabular-nums}
+.sched h4{margin:0 0 4px;font-family:var(--f-display);font-size:17px}
+.sched p,.sched ul{margin:4px 0 0;font-size:15px}
+.sched>div>div{min-width:0}
+@media (max-width:520px){.sched>div{grid-template-columns:1fr;gap:4px}}
+.check{padding-left:24px}
+.check li{list-style:none;position:relative}
+.check li::before{content:"";position:absolute;left:-20px;top:.55em;width:10px;height:10px;border:1.5px solid var(--accent);border-radius:2px}
+footer{margin-top:32px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+</style>
+</head><body>
+<div class="wrap">
+<header>
+  <div class="eyebrow">Nash · Game Programming 1 · Intro to C# · Lab</div>
+  <h1>Rogue <span>Minimized</span></h1>
+  <p class="lede">Un piccolo remake del cuore di Rogue (1980), il gioco che ha dato il nome a un intero genere: un dungeon disegnato con i caratteri nel terminale, esplorato un turno alla volta. Lo costruisci in C#, una milestone a settimana, usando quello che impari nella lezione del lunedì. Le milestone vengono assegnate una alla volta.</p>
+  <div class="meta"><span>Consegna finale <b>mer 20 gennaio</b></span><span>Gioco <b>individuale</b>, wiki <b>di gruppo</b></span></div>
+</header>
+
+<nav class="tabs" role="tablist" aria-label="Sezioni">
+  <button role="tab" id="t-game" aria-controls="game" aria-selected="true">Il gioco</button>
+  <button role="tab" id="t-mech" aria-controls="mech" aria-selected="false">Meccaniche</button>
+  <button role="tab" id="t-wiki" aria-controls="wiki" aria-selected="false">Wiki</button>
+  <button role="tab" id="t-tech" aria-controls="tech" aria-selected="false">Requisiti tecnici</button>
+  <button role="tab" id="t-ms" aria-controls="ms" aria-selected="false">Milestone</button>
+</nav>
+
+<section class="panel" id="game" role="tabpanel" aria-labelledby="t-game">
+  <h2>Il gioco</h2>
+  <p>Sei un avventuriero in un dungeon che non vedi. Ogni passo rivela quello che hai intorno. Da qualche parte ci sono dell'oro, un pezzo di armatura, un nemico e l'uscita.</p>
+
+  <h3>Ciclo di gioco</h3>
+  <ol>
+    <li><b>Esplori</b>: ti muovi di una casella per turno, e il dungeon si rivela intorno a te.</li>
+    <li><b>Raccogli</b> quello che trovi: l'oro alza il punteggio, l'armatura ti rende più difficile da ferire.</li>
+    <li><b>Combatti</b> il nemico che sorveglia la stanza con l'uscita, camminandogli addosso.</li>
+    <li><b>Esci</b> dal dungeon attraverso l'uscita. Oppure muori provandoci.</li>
+  </ol>
+
+  <h3>Come appare lo schermo</h3>
+  <p>Un layout possibile. Caratteri e colori li scegli tu.</p>
+<pre><code>You found a gold bag: +17 gold
+
+  ┌──────┐            ┌─────┐
+  │······│░░░░░░░░░░░░+·····│
+  │··@···│            │··k··│
+  │····$·│            │····>│
+  └──+───┘            └─────┘
+     ░
+     ░
+
+HP 20/20   Armor 0   Gold 17   Turn 42</code></pre>
+
+  <h3>Simboli</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Elemento</th><th>Esempio</th><th>Note</th></tr></thead>
+    <tbody>
+      <tr><td>Giocatore</td><td><code>@</code></td><td>Il classico di Rogue. Va bene anche <code>P</code>.</td></tr>
+      <tr><td>Muro</td><td><code>│ ─ ┌ ┐ └ ┘</code></td><td>Non si attraversa.</td></tr>
+      <tr><td>Pavimento</td><td><code>·</code> oppure <code>.</code></td><td></td></tr>
+      <tr><td>Corridoio</td><td><code>░</code> oppure <code>#</code></td><td></td></tr>
+      <tr><td>Porta</td><td><code>+</code></td><td>Dove un corridoio entra in una stanza.</td></tr>
+      <tr><td>Uscita</td><td><code>&gt;</code></td><td>Scale che scendono: raggiungerle conclude la partita.</td></tr>
+      <tr><td>Nemico</td><td>una lettera, per esempio <code>k</code></td><td></td></tr>
+      <tr><td>Sacchetto d'oro</td><td><code>$</code></td><td></td></tr>
+      <tr><td>Armatura</td><td><code>[</code></td><td></td></tr>
+      <tr><td>Inesplorato</td><td>(spazio)</td><td>Caselle non ancora rivelate.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Libertà creativa</h3>
+  <p>Il dungeon lo disegni tu, e scegli caratteri, colori, il nome del gioco e del nemico. Conta che ogni meccanica funzioni come descritto. Rogue Minimized è il nome del progetto: dai al tuo gioco un nome suo.</p>
+</section>
+
+<section class="panel" id="mech" role="tabpanel" aria-labelledby="t-mech" hidden>
+  <h2>Meccaniche</h2>
+
+  <h3>1 · Turno</h3>
+  <div class="tbl"><table><tbody>
+    <tr><td>Cos'è</td><td>Il gioco aspetta un tasto. Ogni tasto che fa qualcosa è un turno: il giocatore agisce, poi il nemico reagisce, poi lo schermo viene ridisegnato.</td></tr>
+    <tr><td>Tasti</td><td>Frecce o WASD per muoversi. <code>M</code> rivela tutta la mappa (debug). <code>Q</code> esce.</td></tr>
+    <tr><td>Regole</td><td>Un tasto che non fa niente (un tasto sconosciuto, un passo contro un muro) non consuma un turno e non fa crashare il gioco.</td></tr>
+  </tbody></table></div>
+
+  <h3>2 · Movimento</h3>
+  <div class="tbl"><table><tbody>
+    <tr><td>Condizioni</td><td>La casella di destinazione è pavimento, corridoio, porta o uscita.</td></tr>
+    <tr><td>Effetti</td><td>Il giocatore si sposta di una casella. Se sulla destinazione c'è un oggetto, lo raccoglie. Se è l'uscita, la partita è vinta.</td></tr>
+    <tr><td>Casi limite</td><td>Muri e spazio vuoto non si attraversano. Il giocatore non può mai uscire dalla mappa, nemmeno ai bordi.</td></tr>
+  </tbody></table></div>
+
+  <h3>3 · Nebbia di guerra</h3>
+  <div class="tbl"><table><tbody>
+    <tr><td>Inizio</td><td>Nessuna casella è rivelata.</td></tr>
+    <tr><td>A ogni turno</td><td>La casella del giocatore e le 8 intorno diventano rivelate, e lo restano per sempre.</td></tr>
+    <tr><td>Disegno</td><td>Le caselle non rivelate si disegnano come spazi. Oggetti e nemici su caselle non rivelate sono invisibili.</td></tr>
+    <tr><td>Debug</td><td><code>M</code> rivela tutte le caselle.</td></tr>
+  </tbody></table></div>
+
+  <h3>4 · Oggetti</h3>
+  <div class="tbl"><table><tbody>
+    <tr><td>Sacchetto d'oro</td><td>Aggiunge una quantità casuale d'oro, tra <code>10</code> e <code>30</code>.</td></tr>
+    <tr><td>Armatura</td><td>Aggiunge <code>2</code> all'armatura del giocatore. L'armatura riduce il danno subito.</td></tr>
+    <tr><td>Raccolta</td><td>Si cammina sull'oggetto. Sparisce dalla mappa e un messaggio dice cosa hai trovato e quanto.</td></tr>
+  </tbody></table></div>
+
+  <h3>5 · Combattimento</h3>
+  <div class="tbl"><table><tbody>
+    <tr><td>Il nemico</td><td>Un nemico, fermo, che sorveglia la stanza con l'uscita. Ha <code>10</code> HP e <code>4</code> di attacco.</td></tr>
+    <tr><td>Attacco del giocatore</td><td>Provare a muoversi sul nemico lo attacca: danno casuale tra <code>2</code> e <code>5</code>. Il giocatore non si sposta.</td></tr>
+    <tr><td>Attacco del nemico</td><td>A fine turno, se il nemico è vivo e adiacente al giocatore (8 direzioni), attacca. Danno = attacco del nemico − armatura del giocatore, <b>minimo 1</b>.</td></tr>
+    <tr><td>Morte del nemico</td><td>A 0 HP sparisce e lascia un <b>bottino casuale</b> sulla sua casella: un sacchetto d'oro o un pezzo di armatura, con la stessa probabilità.</td></tr>
+    <tr><td>Morte del giocatore</td><td>A 0 HP: game over.</td></tr>
+    <tr><td>Messaggi</td><td>Ogni attacco scrive un messaggio: chi ha colpito chi, e di quanto.</td></tr>
+  </tbody></table></div>
+
+  <h3>6 · HUD e fine partita</h3>
+  <div class="tbl"><table><tbody>
+    <tr><td>HUD</td><td>Sempre visibile in fondo allo schermo: <b>HP</b> (attuali / massimi), <b>Armatura</b>, <b>Oro</b>, <b>Turno</b>. Il giocatore parte con <code>20</code> HP, <code>0</code> di armatura, <code>0</code> oro.</td></tr>
+    <tr><td>Riga dei messaggi</td><td>Sempre visibile in alto: l'ultima cosa successa.</td></tr>
+    <tr><td>Schermata finale</td><td>Vittoria (uscita raggiunta) o game over, con l'oro raccolto e i turni giocati.</td></tr>
+  </tbody></table></div>
+
+  <h3>7 · Casualità</h3>
+  <p>Tutto ciò che è casuale (danni, oro, bottino) viene da <b>un solo</b> oggetto <code>Random</code>, creato con un <b>seed</b> scritto in cima al codice. Con lo stesso seed e gli stessi tasti, la partita deve andare esattamente allo stesso modo. È così che viene testata in aula.</p>
+
+  <h3>Nice to have (punti extra)</h3>
+  <ul>
+    <li><b>Inseguimento:</b> quando il giocatore è entro <code>5</code> caselle, il nemico fa un passo verso di lui a ogni turno, lungo l'asse con la distanza maggiore, se quella casella è percorribile.</li>
+    <li><b>Reveal della stanza:</b> entrando in una stanza la si illumina tutta, come nel Rogue originale.</li>
+    <li><b>Più nemici e oggetti</b>, con una <code>List</code>.</li>
+    <li><b>Livello da file:</b> la mappa si carica da un file <code>.txt</code> invece di essere scritta nel codice.</li>
+    <li><b>Dungeon casuale:</b> stanze e corridoi generati all'avvio, uguali a parità di seed. Ogni stanza deve essere raggiungibile.</li>
+  </ul>
+</section>
+
+<section class="panel" id="wiki" role="tabpanel" aria-labelledby="t-wiki" hidden>
+  <h2>Wiki</h2>
+  <p>Il gioco è individuale, la <b>documentazione è condivisa</b>: la classe scrive insieme una wiki su GitHub e la fa crescere durante il modulo. Cosa metterci e come organizzarla lo decidete voi.</p>
+
+  <h3>Dove trovare le fonti</h3>
+  <ul>
+    <li><b>Documentazione ufficiale di C# e .NET</b> su Microsoft Learn: la guida di C# per il linguaggio, il reference delle API .NET per classi come <code>Console</code> e <code>Random</code>.</li>
+    <li><b>Su Rogue:</b> il manuale originale (<i>A Guide to the Dungeons of Doom</i>), RogueBasin (una wiki sui roguelike) e soprattutto le vostre partite.</li>
+    <li><b>Le vostre prove:</b> un piccolo programma che dimostra come si comporta qualcosa è spesso la fonte migliore.</li>
+    <li><b>Strumenti di AI:</b> utili per trovare un punto di partenza o rileggere un testo, ma possono sbagliare. Verificate su una delle fonti sopra.</li>
+  </ul>
+  <div class="callout swarm"><p>La wiki ha un voto unico per tutta la classe.</p></div>
+</section>
+
+<section class="panel" id="tech" role="tabpanel" aria-labelledby="t-tech" hidden>
+  <h2>Requisiti tecnici</h2>
+  <ul>
+    <li>Applicazione console in C#, .NET 11, VS Code.</li>
+    <li><b>Caratteri:</b> ASCII, più i box-drawing Unicode (<code>┌ ┐ └ ┘ ─ │ ├ ┤ ┬ ┴ ┼</code>), i blocchi (<code>░ ▒ ▓ █</code>) e <code>·</code>. Niente emoji o altri simboli: possono occupare due colonne e sfasare la griglia. All'avvio imposta <code>Console.OutputEncoding</code> su UTF-8.</li>
+    <li>Lo schermo si ridisegna sul posto, senza scorrere: nessuna traccia dei frame precedenti.</li>
+    <li>Solo quello che abbiamo visto in classe, più gli snippet forniti con ogni milestone. Tutto il resto è ammesso se lo sai spiegare.</li>
+    <li>Un README con: come si avvia il gioco, i tasti, il seed, le scelte che hai fatto.</li>
+  </ul>
+</section>
+
+<section class="panel" id="ms" role="tabpanel" aria-labelledby="t-ms" hidden>
+  <h2>Milestone</h2>
+  <p>Ogni milestone viene assegnata il mercoledì e consegnata <b>entro le 9:00 del mercoledì successivo</b>, all'inizio del laboratorio, come .zip della cartella del progetto (senza le cartelle <code>bin</code> e <code>obj</code>). I dettagli di ogni milestone vengono dati quando viene assegnata.</p>
+  <ol class="ms">
+    <li><div class="head"><span class="code">M0</span><span class="title">Wiki e setup</span><span class="due">mer 25 novembre</span></div>
+      <ul>
+        <li>Wiki: avviatela insieme. Nelle milestone successive aggiornatela man mano che il progetto avanza.</li>
+        <li>Account GitHub per modificare la wiki. Progetto console che compila e parte.</li>
+        <li>README e title screen con il nome del tuo gioco.</li>
+      </ul></li>
+    <li><div class="head"><span class="code">M1</span><span class="title">Una stanza</span><span class="due">mer 2 dicembre</span></div>
+      <ul>
+        <li>Una sola stanza, disegnata a partire da posizione e dimensioni.</li>
+        <li>Il giocatore si muove al suo interno e non esce mai dai muri.</li>
+        <li>HUD sempre visibile: HP, armatura, oro, turno.</li>
+      </ul></li>
+    <li><div class="head"><span class="code">M2</span><span class="title">Dungeon e nebbia di guerra</span><span class="due">mer 16 dicembre</span></div>
+      <ul>
+        <li>Un dungeon disegnato a mano: almeno 3 stanze, corridoi, porte, l'uscita.</li>
+        <li>Collisioni con i muri. Raggiungere l'uscita vince la partita.</li>
+        <li>Nebbia di guerra, con il tasto di debug.</li>
+      </ul></li>
+    <li><div class="head"><span class="code">M3</span><span class="title">Il nemico</span><span class="due">mer 23 dicembre</span></div>
+      <ul>
+        <li>Codice diviso in funzioni.</li>
+        <li>Il nemico che sorveglia l'uscita, combattimento, game over, messaggi.</li>
+        <li>Un solo <code>Random</code> con seed.</li>
+      </ul></li>
+    <li><div class="head"><span class="code">M4</span><span class="title">Loot</span><span class="due">mer 13 gennaio</span></div>
+      <ul>
+        <li>Sacchetto d'oro e armatura sulla mappa, bottino casuale dal nemico.</li>
+        <li>Tipi di casella e di oggetto come enum, caselle come struct.</li>
+        <li>Schermata finale.</li>
+      </ul></li>
+    <li><div class="head"><span class="code">M5</span><span class="title">Classi</span><span class="due">mer 20 gennaio</span></div>
+      <ul>
+        <li>Giocatore, nemico e oggetti diventano classi. Il gioco funziona esattamente come in M4.</li>
+      </ul></li>
+    <li><div class="head"><span class="code">FIN</span><span class="title">Consegna finale</span><span class="due">mer 20 gennaio</span></div>
+      <ul>
+        <li>Presentazione di 5 minuti: il tuo gioco, due scelte di codice, cosa è stato difficile.</li>
+        <li>Test in aula con un seed scelto dal docente.</li>
+        <li>Orale: spieghi una parte del tuo codice e ci fai una piccola modifica dal vivo.</li>
+      </ul></li>
+  </ol>
+</section>
+
+<footer>Rogue Minimized · remake accademico di Rogue (1980) · Intro to C#, Game Programming 1 · Nash, 2026/27</footer>
+</div>
+
+<script>
+(function(){
+  var tabs=[].slice.call(document.querySelectorAll('nav.tabs [role=tab]'));
+  function show(id,push){
+    tabs.forEach(function(t){
+      var on=t.getAttribute('aria-controls')===id;
+      t.setAttribute('aria-selected',on?'true':'false');
+      t.tabIndex=on?0:-1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden=!on;
+    });
+    if(push){try{history.replaceState(null,'','#'+id)}catch(e){}}
+  }
+  tabs.forEach(function(t,i){
+    t.addEventListener('click',function(){show(t.getAttribute('aria-controls'),true)});
+    t.addEventListener('keydown',function(e){
+      var d=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0;
+      if(!d)return;var n=tabs[(i+d+tabs.length)%tabs.length];n.focus();n.click();
+    });
+  });
+  document.addEventListener('click',function(e){var a=e.target.closest('a[data-tab]');if(a){e.preventDefault();show(a.getAttribute('data-tab'),true);}});
+  var h=(location.hash||'').slice(1);
+  if(h&&document.getElementById(h)&&tabs.some(function(t){return t.getAttribute('aria-controls')===h}))show(h,false);
+})();
+</script>
+</body></html>
